@@ -1,0 +1,1 @@
+-rwxr-xr-x 1 mhc mhc 62 Jul 11 17:51 semester
