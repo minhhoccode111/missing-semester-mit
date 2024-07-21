@@ -9,7 +9,9 @@ $0 - name
 $@ - all
 $# - args.length
 $? - code prev command
-$$ - pid
+
+$$
+- pid
 !! - last command - sudo !!
 $_ - last arg last command
 
@@ -100,25 +102,11 @@ $PATH
 
 PATH
 
-#!/usr/bin/env python
+# !/usr/bin/env python
 
 functions
 
 export
 
 <-- shell tools -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+$$

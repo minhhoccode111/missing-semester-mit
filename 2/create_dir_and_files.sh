@@ -11,16 +11,18 @@ echo "Running program $0 with $# arguments with pid $$"
 
 # $@: all the arguments
 # loop through every arguments
+# $?: return code of the previous command
 for file in "$@"; do
-    # "$file" is variable that hold the file name
-    # use grep to find the string "foobar" in "$file"
+    # >: is used to redirect standard output (stdout) to a file or device
+    # 2>: is used to redirect standard error (stderr) to a file or device
+    # /dev/null is a special file that discards any input written to it
     grep foobar "$file" > /dev/null 2> /dev/null
     # when pattern is not found, grep has exit status 1
     # we redirect STDOUT and STDERR to a null register since we do not care
     # about them
 
-    # $?: return code of the previous command
-    # check if $? is not equal (-ne) to 0
+    # check if the return code of `grep foobar "$file" > /dev/null 2> /dev/null`
+    # is not equal (-ne) to 0
     # more on -ne: https://www.man7.org/linux/man-pages/man1/test.1.html
     # when perform comparison in bash, use [[]] over [] because chances of
     # making mistakes are lower although it won't be portable to `sh`
@@ -30,5 +32,3 @@ for file in "$@"; do
         fi
         echo "# foobar" >> "$file"
 done
-
-

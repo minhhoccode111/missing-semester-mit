@@ -1,3 +1,4 @@
+#!/bin/bash
 
 # declare a variable
 foo=bar
@@ -56,7 +57,7 @@ false ; echo "This will always run"
 ############################ COMMAND SUBSTITUTION ##############################
 # $(CMD)
 echo
-echo $(ls) # executet ls and substitute its output in place
+echo "$(ls)" # executet ls and substitute its output in place
 # for file in $(ls)
 
 
