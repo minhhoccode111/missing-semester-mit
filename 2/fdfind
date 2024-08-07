@@ -1,0 +1,443 @@
+FD(1)                       General Commands Manual                      FD(1)
+
+NAME
+       fd - find entries in the filesystem
+
+SYNOPSIS
+       fd  [-HIEsiaLp0hV]  [-d  depth] [-t filetype] [-e ext] [-E exclude] [-c
+       when] [-j num] [-x cmd] [pattern] [path...]
+
+DESCRIPTION
+       fd is a simple, fast and user-friendly alternative to find(1).
+
+OPTIONS
+       -H, --hidden
+              Include hidden files and directories in the search results  (de‐
+              fault:  hidden  files and directories are skipped). The flag can
+              be overridden with '--no-hidden'.
+
+       -I, --no-ignore
+              Show search results from files and directories that would other‐
+              wise be ignored by
+
+              • .gitignore
+
+              • .git/info/exclude
+
+              • The  global  gitignore  configuration  (by default $HOME/.con‐
+                fig/git/ignore)
+
+              • .ignore
+
+              • .fdignore
+
+              • The global fd ignore file (usually $HOME/.config/fd/ignore )
+
+              The flag can be overridden with '--ignore'.
+
+       -u, --unrestricted
+              Alias for '--no-ignore'. Can be repeated; '-uu' is an alias  for
+              '--no-ignore --hidden'.
+
+       --no-ignore-vcs
+              Show search results from files and directories that would other‐
+              wise  be  ignored  by  gitignore  files  including   .gitignore,
+              .git/info/exclude,   and   the  global  gitignore  configuration
+              (core.excludesFile git setting, which  defaults  to  $HOME/.con‐
+              fig/git/ignore).   The  flag  can  be overridden with '--ignore-
+              vcs'.
+
+       --no-ignore-parent
+              Show search results from files and directories that would other‐
+              wise be ignored by gitignore files in parent directories.
+
+       -s, --case-sensitive
+              Perform a case-sensitive search. By default, fd uses case-insen‐
+              sitive searches, unless the pattern contains an uppercase  char‐
+              acter (smart case).
+
+       -i, --ignore-case
+              Perform  a case-insensitive search. By default, fd uses case-in‐
+              sensitive searches, unless the  pattern  contains  an  uppercase
+              character (smart case).
+
+       -g, --glob
+              Perform  a  glob-based  search  instead  of a regular expression
+              search.  If combined with the '--full-path' option, '**' can  be
+              used to match multiple path components.
+
+       --regex
+              Perform a regular-expression based search (default). This can be
+              used to override --glob.
+
+       -F, --fixed-strings
+              Treat the pattern as a literal string instead of a  regular  ex‐
+              pression.  Note that this also performs substring comparison. If
+              you want to match on an exact filename, consider using '--glob'.
+
+       -a, --absolute-path
+              Shows the full path starting from the root as opposed  to  rela‐
+              tive paths.  The flag can be overridden with '--relative-path'.
+
+       -l, --list-details
+              Use a detailed listing format like 'ls -l'. This is basically an
+              alias for '--exec-batch ls -l' with  some  additional  'ls'  op‐
+              tions.  This  can  be used to see more metadata, to show symlink
+              targets and to achieve a deterministic sort order.
+
+       -L, --follow
+              By default, fd does not descend into symlinked directories.  Us‐
+              ing  this  flag, symbolic links are also traversed. The flag can
+              be overridden with '--no-follow'.
+
+       -p, --full-path
+              By default, the search pattern is only matched against the file‐
+              name  (or  directory  name).  Using  this  flag,  the pattern is
+              matched against the full path.
+
+       -0, --print0
+              Separate search results by the null character (instead  of  new‐
+              lines). Useful for piping results to xargs.
+
+       --max-results count
+              Limit  the  number of search results to 'count' and quit immedi‐
+              ately.
+
+       -1     Limit the search to a single result and quit  immediately.  This
+              is an alias for '--max-results=1'.
+
+       -q, --quiet
+              When  the  flag  is present, the program does not print anything
+              and will instead exit with a code of 0 if there is at least  one
+              search  result.   Otherwise,  the  exit code will be 1.  This is
+              mainly for usage in scripts and can be faster than checking  for
+              output  because  the search can be stopped early after the first
+              match.  --has-results can be used as an alias.
+
+       --show-errors
+              Enable the display of filesystem errors for situations  such  as
+              insufficient permissions or dead symlinks.
+
+       --strip-cwd-prefix
+              By  default, relative paths are prefixed with './' when the out‐
+              put goes to a non interactive terminal (TTY). Use this  flag  to
+              disable this behaviour.
+
+       --one-file-system, --mount, --xdev
+              By  default,  fd  will  traverse  the file system tree as far as
+              other options dictate. With this flag, fd ensures that  it  does
+              not descend into a different file system than the one it started
+              in. Comparable to the -mount or -xdev filters of find(1).
+
+       -h, --help
+              Print help information.
+
+       -V, --version
+              Print version information.
+
+       -d, --max-depth d
+              Limit directory traversal to at most d levels of depth.  By  de‐
+              fault, there is no limit on the search depth.
+
+       --min-depth d
+              Only  show search results starting at the given depth. See also:
+              '--max-depth' and '--exact-depth'.
+
+       --exact-depth d
+              Only show search results at the exact given depth.  This  is  an
+              alias for '--min-depth <depth> --max-depth <depth>'.
+
+       --prune
+              Do not traverse into matching directories.
+
+       -t, --type filetype
+              Filter search by type:
+
+              f, file
+                     regular files
+
+              d, directory
+                     directories
+
+              l, symlink
+                     symbolic links
+
+              s, socket
+                     sockets
+
+              p, pipe
+                     named pipes (FIFOs)
+
+              x, executable
+                     executable (files)
+
+              e, empty
+                     empty files or directories
+
+              This  option can be specified more than once to include multiple
+              file types.  Searching for '--type  file  --type  symlink'  will
+              show both regular files as well as symlinks. Note that the 'exe‐
+              cutable' and 'empty'  filters  work  differently:  '--type  exe‐
+              cutable'  implies  '--type  file' by default. And '--type empty'
+              searches for empty files and directories, unless either  '--type
+              file' or '--type directory' is specified in addition.
+
+              Examples:
+                - Only search for files:
+                    fd --type file …
+                    fd -tf …
+                - Find both files and symlinks
+                    fd --type file --type symlink …
+                    fd -tf -tl …
+                - Find executable files:
+                    fd --type executable
+                    fd -tx
+                - Find empty files:
+                    fd --type empty --type file
+                    fd -te -tf
+                - Find empty directories:
+                    fd --type empty --type directory
+                    fd -te -td
+
+       -e, --extension ext
+              Filter search results by file extension ext.  This option can be
+              used repeatedly to allow for multiple possible file extensions.
+
+              If you want to search for files without extension, you  can  use
+              the regex '^[^.]+$' as a normal search pattern.
+
+       -E, --exclude pattern
+              Exclude  files/directories  that  match  the given glob pattern.
+              This overrides any other ignore logic.   Multiple  exclude  pat‐
+              terns can be specified.  Examples:
+                --exclude '*.pyc'
+                --exclude node_modules
+
+       --ignore-file path
+              Add  a  custom  ignore-file in '.gitignore' format.  These files
+              have a low precedence.
+
+       -c, --color when
+              Declare when to colorize search results:
+
+              auto   Colorize output when standard output is connected to ter‐
+                     minal (default).
+
+              never  Do not colorize output.
+
+              always Always colorize output.
+
+       -j, --threads num
+              Set number of threads to use for searching & executing (default:
+              number of available CPU cores).
+
+       -S, --size size
+              Limit results based on  the  size  of  files  using  the  format
+              <+-><NUM><UNIT>
+
+              '+'    file size must be greater than or equal to this
+
+              '-'    file size must be less than or equal to this
+
+              If  neither  '+' nor '-' is specified, file size must be exactly
+              equal to this.
+
+              'NUM'  The numeric size (e.g. 500)
+
+              'UNIT' The units for NUM. They are not case-sensitive.   Allowed
+                     unit values:
+
+                     'b'    bytes
+
+                     'k'    kilobytes (base ten, 10^3 = 1000 bytes)
+
+                     'm'    megabytes
+
+                     'g'    gigabytes
+
+                     't'    terabytes
+
+                     'ki'   kibibytes (base two, 2^10 = 1024 bytes)
+
+                     'mi'   mebibytes
+
+                     'gi'   gibibytes
+
+                     'ti'   tebibytes
+
+       --changed-within date|duration
+              Filter  results based on the file modification time.  Files with
+              modification times greater than the argument will  be  returned.
+              The  argument  can be provided as a duration (10h, 1d, 35min) or
+              as a specific point in time in either full RFC3339  format  with
+              time  zone,  or  as  a  date  or datetime in the local time zone
+              (YYYY-MM-DD or YYYY-MM-DD HH:MM:SS).  --change-newer-than can be
+              used as an alias.
+
+              Examples:
+                --changed-within 2weeks
+                --change-newer-than "2018-10-27 10:00:00"
+
+       --changed-before date|duration
+              Filter  results based on the file modification time.  Files with
+              modification times less than the argument will be returned.  The
+              argument  can be provided as a duration (10h, 1d, 35min) or as a
+              specific point in time in either full RFC3339 format  with  time
+              zone,  or as a date or datetime in the local time zone (YYYY-MM-
+              DD or YYYY-MM-DD HH:MM:SS).  --change-older-than can be used  as
+              an alias.
+
+              Examples:
+                --changed-before "2018-10-27 10:00:00"
+                --change-older-than 2weeks
+
+       -o, --owner [user][:group]
+              Filter    files    by   their   user   and/or   group.   Format:
+              [(user|uid)][:(group|gid)]. Either side is optional. Precede ei‐
+              ther side with a '!' to exclude files instead.
+
+              Examples:
+                --owner john
+                --owner :students
+                --owner "!john:students"
+
+       --base-directory path
+              Change the current working directory of fd to the provided path.
+              This means that search results will be shown with respect to the
+              given base path. Note that relative paths which are passed to fd
+              via the positional path argument  or  the  --search-path  option
+              will also be resolved relative to this directory.
+
+       --path-separator separator
+              Set  the path separator to use when printing file paths. The de‐
+              fault is the OS-specific separator ('/' on  Unix,  '\'  on  Win‐
+              dows).
+
+       --search-path search-path
+              Provide paths to search as an alternative to the positional path
+              argument. Changes the usage to ´fd [FLAGS/OPTIONS] --search-path
+              PATH --search-path PATH2 [PATTERN]´
+
+       -x, --exec command
+              Execute   command  for  each  search  result  in  parallel  (use
+              --threads=1 for sequential command execution).
+
+              Note that all subsequent positional arguments are considered  to
+              be arguments to the command - not to fd.  It is therefore recom‐
+              mended to place the -x/--exec option  last.  Alternatively,  you
+              can  supply a ';' argument to end the argument list and continue
+              with more fd options.  Most shells require ';'  to  be  escaped:
+              '\;'.
+
+              The following placeholders are substituted before the command is
+              executed:
+
+                     {}     path (of the current search result)
+
+                     {/}    basename
+
+                     {//}   parent directory
+
+                     {.}    path without file extension
+
+                     {/.}   basename without file extension
+
+              If no placeholder is present, an implicit "{}" at the end is as‐
+              sumed.
+
+              Examples:
+
+                - find all *.zip files and unzip them:
+
+                      fd -e zip -x unzip
+
+                -  find  *.h  and *.cpp files and run "clang-format -i .." for
+              each of them:
+
+                      fd -e h -e cpp -x clang-format -i
+
+                - Convert all *.jpg files to *.png files:
+
+                      fd -e jpg -x convert {} {.}.png
+
+       -X, --exec-batch command
+              Execute command once, with all search results as arguments.  One
+              of  the following placeholders is substituted before the command
+              is executed:
+
+                     {}     path (of all search results)
+
+                     {/}    basename
+
+                     {//}   parent directory
+
+                     {.}    path without file extension
+
+                     {/.}   basename without file extension
+
+              If no placeholder is present, an implicit "{}" at the end is as‐
+              sumed.
+
+              Examples:
+
+                - Find all test_*.py files and open them in your favorite edi‐
+              tor:
+
+                      fd -g 'test_*.py' -X vim
+
+                  Note that this executes a  single  "vim"  process  with  all
+              search results as arguments.
+
+                - Find all *.rs files and count the lines with "wc -l ...":
+
+                      fd -e rs -X wc -l
+
+       --batch-size size
+              Maximum  number  of  arguments to pass to the command given with
+              -X. If the number of results is greater than the given size, the
+              command  given  with -X is run again with remaining arguments. A
+              batch size of zero means there is no limit.
+
+PATTERN SYNTAX
+       The regular expression syntax used by fd is documented here:
+
+           https://docs.rs/regex/1.0.0/regex/#syntax
+
+       The glob syntax is documented here:
+
+           https://docs.rs/globset/#syntax
+
+ENVIRONMENT
+       LS_COLORS
+              Determines how to colorize search results, see dircolors(1).
+
+       NO_COLOR
+              Disables colorized output.
+
+       XDG_CONFIG_HOME, HOME
+              Used to locate the global ignore  file.  If  XDG_CONFIG_HOME  is
+              set, use $XDG_CONFIG_HOME/fd/ignore.  Otherwise, use $HOME/.con‐
+              fig/fd/ignore.
+
+EXAMPLES
+       Find files and directories that match the pattern 'needle':
+              $ fd needle
+
+       Start a search in a given directory (/var/log):
+              $ fd nginx /var/log
+
+       Find all Python files (all files with the extension .py) in the current
+       directory:
+              $ fd -e py
+
+       Open all search results with vim:
+              $ fd pattern -X vim
+
+       --batch-size size
+              Pass  at  most  size arguments to each call to the command given
+              with -X.
+
+       SEE ALSO
+              find(1)
+
+                                                                         FD(1)
