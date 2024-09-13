@@ -41,3 +41,35 @@ cat ssh.log | sed -E 's/^.*Disconnected from (invalid |authenticating )?user (.*
 
 # make this no-greedy with the .*? - mean that the moment we hit the "Disconnected" keyword, we start parsing the rest of the pattern
 cat ssh.log | sed -E 's/^.*?Disconnected from (invalid |authenticating )?user (.*) [0-9.]+ port [0-9]+( \[preauth\])?$/\2/'
+
+# count lines
+# wc is stand for word count and -l is count new line
+cat ssh.log | sed -E 's/^.*?Disconnected from (invalid |authenticating )?user (.*) [0-9.]+ port [0-9]+( \[preauth\])?$/\2/' | wc -l
+
+# or sort the output
+cat ssh.log | sed -E 's/^.*?Disconnected from (invalid |authenticating )?user (.*) [0-9.]+ port [0-9]+( \[preauth\])?$/\2/' | sort
+
+# then remove duplicate 
+cat ssh.log | sed -E 's/^.*?Disconnected from (invalid |authenticating )?user (.*) [0-9.]+ port [0-9]+( \[preauth\])?$/\2/' | sort | uniq
+
+# remove duplicate and count the number of lines
+cat ssh.log | sed -E 's/^.*?Disconnected from (invalid |authenticating )?user (.*) [0-9.]+ port [0-9]+( \[preauth\])?$/\2/' | sort | uniq -c
+
+# then sort numeric on the first column of the input
+cat ssh.log | sed -E 's/^.*?Disconnected from (invalid |authenticating )?user (.*) [0-9.]+ port [0-9]+( \[preauth\])?$/\2/' | sort | uniq -c | sort -nk1,1
+# -n: numeric
+# -k: like split the white space
+# 1,1: start at the first column and end at the first column
+
+# take and join all usernames to 1 line separate by ','
+cat ssh.log | sed -E 's/^.*?Disconnected from (invalid |authenticating )?user (.*) [0-9.]+ port [0-9]+( \[preauth\])?$/\2/' | sort | uniq -c | sort -nk1,1 | tail -n20 | awk '{print $2}' | paste -sd,
+# awk '{print $2}': awk parse input from white space to column and let your operate on these columns separately and print the $2 column
+# paste -sd,: paste is a program that take a bunch of lines and paste them together into a single line (-s) with the delimiter (-d) ','
+
+# awk example: get all username that only appear once and start with 'c' and end with 'e'
+cat ssh.log | sed -E 's/^.*?Disconnected from (invalid |authenticating )?user (.*) [0-9.]+ port [0-9]+( \[preauth\])?$/\2/' | sort | uniq -c | awk '$1 == 1 && $2 ~ /^c.*e$/ {print $0}'
+# $1 == 1: appear once, column 1 == 1
+# $2 ~ /^c.*e$/: column 2 match regex pattern
+# {print $0}: print the whole line
+
+
