@@ -58,7 +58,7 @@ cat ssh.log | sed -E 's/^.*?Disconnected from (invalid |authenticating )?user (.
 # then sort numeric on the first column of the input
 cat ssh.log | sed -E 's/^.*?Disconnected from (invalid |authenticating )?user (.*) [0-9.]+ port [0-9]+( \[preauth\])?$/\2/' | sort | uniq -c | sort -nk1,1
 # -n: numeric
-# -k: like split the white space
+# -k: line split the white space
 # 1,1: start at the first column and end at the first column
 
 # take and join all usernames to 1 line separate by ','

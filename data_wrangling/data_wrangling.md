@@ -41,7 +41,7 @@ SSH (Secure Shell):
 Regular Expressions (RegEx):
 
 - Cách mạnh mẽ để tìm kiếm và thay thế chuỗi dựa trên các mẫu.
-- Ví dụ: `.disconnected from` có thể tìm bất kỳ chuỗi nào trước "disconnected from" và loại bỏ nó.
+- Ví dụ: `.*disconnected from` có thể tìm bất kỳ chuỗi nào trước "disconnected from" và loại bỏ nó.
 
 Ký tự đặc biệt trong RegEx:
 
@@ -85,5 +85,3 @@ FFmpeg: Công cụ xử lý video và ảnh.
 - Các công cụ như `grep`, `sed`, `awk`, `sort` và `uniq` là những công cụ mạnh mẽ hỗ trợ quá trình này.
 - Regular expressions là phần quan trọng trong việc tìm kiếm và thay thế dữ liệu.
 - Kết hợp nhiều công cụ có thể giúp bạn xử lý những tệp dữ liệu lớn một cách hiệu quả.
-
-### Code example
