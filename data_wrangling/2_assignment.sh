@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 ################################ REQUIREMENTS ##################################
 # Find the number of words (in /usr/share/dict/words) that contain at least
 # three as and don’t have a 's ending. What are the three most common last two
