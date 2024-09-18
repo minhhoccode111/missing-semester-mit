@@ -7,7 +7,11 @@ The Missing Semester of Your CS Education
 Make a file executable
 
 ```bash
-chmod +x #<filename.sh>
+chmod +x <filename>
 ```
 
+Execute a file
 
+```bash
+./<filename>
+```
