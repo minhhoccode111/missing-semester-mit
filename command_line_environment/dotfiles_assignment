@@ -1,0 +1,10 @@
+Let’s get you up to speed with dotfiles.
+
+1. Create a folder for your dotfiles and set up version control.
+2. Add a configuration for at least one program, e.g. your shell, with some customization (to start off, it can be something as simple as customizing your shell prompt by setting $PS1).
+3. Set up a method to install your dotfiles quickly (and without manual effort) on a new machine. This can be as simple as a shell script that calls ln -s for each file, or you could use a specialized utility.
+4. Test your installation script on a fresh virtual machine.
+5. Migrate all of your current tool configurations to your dotfiles repository.
+6. Publish your dotfiles on GitHub.
+
+Done
