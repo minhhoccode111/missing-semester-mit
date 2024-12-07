@@ -1,0 +1,10 @@
+this is the vim macro to convert the file to json
+just put it to a register and then execute it
+
+example:
+- put to `a` register
+V"ay
+- execute the macro 250 times to finish
+250@a
+
+Hsrt{KA,jjkkHsdtI""jjinamejjla: jjlsaL"A,jjjsdtI""jjiemailjjla: jjlsaL"jj
