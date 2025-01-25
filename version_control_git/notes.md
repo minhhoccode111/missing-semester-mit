@@ -1,25 +1,52 @@
 # Notes
 
+Only get the latest snapshot in big repo when clone
+
 ```bash
-# only get the latest snapshot in big repo when clone
 git clone --shallow git@<hosting>:<username>/<repo>.git
+```
 
-# choose which hunk in a file to add
+Choose which hunk in a file to add
+
+```bash
+
+
 git add -p <path>
+```
 
-# show diff in staging area
+Show diff in staging area
+
+```bash
 git diff --cached
+```
 
-# who, what, when made the line change
+```bash
+
+Who, what, when made the line change
+```
+
+```bash
 git blame
+```
 
-# store changes in working directory to a safe place
+Store changes in working directory to a safe place
+
+```bash
 git stash
-# pop the previous stash
+```
+
+Pop the previous stash
+
+```bash
 git stash pop
 
-# example you notice one of your test cases fails but you don't know in which commit it failed
-# so you bisect the commits to find out which one it failed in
-# git bisect can binary search your commit history to find out in which commit it failed
+```
+
+Example you notice one of your test cases fails but you don't know in which
+commit it failed so you bisect the commits to find out which one it failed in
+git bisect can binary search your commit history to find out in which commit it
+failed
+
+```bash
 git bisect
 ```
