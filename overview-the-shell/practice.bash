@@ -37,21 +37,21 @@ which mkdir
 # input stream and output stream
 # normally, a program's input and output stream are both your terminal
 # that is, your keyboard as input and your screen as output
-# however we can also rewire those streams with `< file` (input from file) 
+# however we can also rewire those streams with `< file` (input from file)
 # and `> file` (output to file)
 
 # write to a file
-echo hello, world! > hello.txt
+echo hello, world! >hello.txt
 
 # read a file with cat
 cat hello.txt
 
 # also read a file with cat
-cat < hello.txt
+cat <hello.txt
 
 # read from a file and write to another file
-cat < hello.txt > hello2.txt
-cat < hello2.txt
+cat <hello.txt >hello2.txt
+cat <hello2.txt
 
 # tail print n lines of the input
 ls -l / | tail -n5

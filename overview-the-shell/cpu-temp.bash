@@ -3,7 +3,7 @@
 # go to the /sys dir
 cd /sys
 
-# "fd" is used to search files like "find" program 
+# "fd" is used to search files like "find" program
 # but written in Rust and use regex
 # find every file with "temp" in name
 sudo fd temp
