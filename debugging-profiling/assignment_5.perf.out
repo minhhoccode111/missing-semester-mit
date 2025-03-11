@@ -1,0 +1,11 @@
+$ source assignment_5.perf.bash
+
+Performance counter stats for 'python assignment_5.py 1000':
+
+3,131,772 cache-references:u
+98,912 cache-misses:u #    3.16% of all cache refs
+
+0.077971743 seconds time elapsed
+
+0.074669000 seconds user
+0.002991000 seconds sys
