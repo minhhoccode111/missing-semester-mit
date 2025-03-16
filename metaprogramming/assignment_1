@@ -1,0 +1,2 @@
+clean:
+	rm -f paper.pdf plot-*.png *.aux *.log *.out *.toc *.synctex.gz

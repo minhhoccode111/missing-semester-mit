@@ -1,0 +1,12 @@
+#!/bin/sh
+# pre-commit
+
+# run `make`
+if ! make; then
+    echo "Build failed! Fix errors before committing." >$2
+    exit 1
+fi
+
+exit 0
+
+# then `chmod +x .git/hooks/pre-commit`
