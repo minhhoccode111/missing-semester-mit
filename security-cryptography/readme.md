@@ -289,15 +289,6 @@ proves that the client is in possession of the private key corresponding to the
 public key that's in the server's `.ssh/authorized_keys` file, so the server
 can allow the client to log in.
 
-{% comment %}
-extra topics, if there's time
-
-security concepts, tips
-
-- biometrics
-- HTTPS
-  {% endcomment %}
-
 ## Resources
 
 - [Last year's notes](/2019/security/): from when this lecture was more focused on security and privacy as a computer user
